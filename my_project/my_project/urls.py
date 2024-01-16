@@ -32,6 +32,7 @@ from django.contrib import admin
 from django.urls import path, include
 from my_app.views import *
 from contact.views import *
+from main.views import *
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -39,4 +40,5 @@ urlpatterns = [
     path("contact/", contact_us, name="contact"),
     path("user_login/", include("user_login.urls")),
     path("auth/", include("django.contrib.auth.urls")),
+    path("main/", include("main.urls")),
     ]

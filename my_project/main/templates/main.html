@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="makename">What's yo name</label>
+        <input type="text" id="makename" name="makename" />
+        <button type="submit">Submit</button>
+    </form>
+    
+    <label for="dropdown">Select an option:</label>
+    <select id="dropdown" name="dropdown">
+        {% for i in res %}
+            <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+    </select>
+
+</body>
+</html>
