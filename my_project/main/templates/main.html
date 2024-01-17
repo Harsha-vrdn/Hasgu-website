@@ -1,122 +1,256 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
     <style>
-        body {
-            font-family: 'Times New Roman', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 80%;
-        }
-
-        #dropdown, #preview, #text-area, #selected-option {
-            font-family: 'Times New Roman', serif;
-            margin-top: 10px;
-            width: 100%; /* Full width for the dropdown, text area, and selected option */
-        }
-
-        #input-container {
-            display: flex;
-            flex-direction: column;
-        }
-
-        #preview-container {
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 30%;
-            height: fit-content;
-            text-align: center;
-        }
-
-        #dropdown-container, #text-area-container {
-            display: flex;
-            flex-direction: column;
-            width: 30%;
-        }
+      body {
+        font-family: 'Times New Roman', serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      
+      .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+      }
+      
+      #dropdown,
+      #preview,
+      #text-area,
+      #selected-option {
+        font-family: 'Times New Roman', serif;
+        margin-top: 10px;
+        width: 100%; /* Full width for the dropdown, text area, and selected option */
+      }
+      
+      #input-container {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      #preview-container {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 30%;
+        height: fit-content;
+        text-align: center;
+      }
+      
+      #dropdown-container,
+      #text-area-container {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div id="preview-container">
-            <label>Preview:</label>
-            <div id="preview">Nothing</div>
-        </div>
+      <div id="preview-container">
+        <label>Preview:</label>
+        <div id="preview">Nothing</div>
+      </div>
 
-        <div id="dropdown-container">
-            <form action="" method="post">
-                {% csrf_token %}
-                <label for="makename">What's yo name</label>
-                <input type="text" id="makename" name="makename" />
-                <button type="submit">Submit</button>
-                
-                <label for="dropdown">Select an option:</label>
-                <select id="dropdown" name="dropdown" onchange="updatePreview()">
-                    <option value="none"></option>
-                    {% for i in res %}
-                        <option value="{{ i }}">{{ i }}</option>
-                    {% endfor %}
-                </select>
-            </form>
-        </div>
+      <div id="dropdown-container">
+        <form action="" method="post">
+          {% csrf_token %}
+          <label for="makename">What's yo name</label>
+          <input type="text" id="makename" name="makename" />
+          <button type="submit">Submit</button>
 
-        <div id="text-area-container">
-            <label for="text-area">Write anything:</label>
-            <textarea id="text-area" rows="4" cols="50" oninput="updatePreview()"></textarea>
+          <label for="dropdown">Select an option:</label>
+          <select id="dropdown" name="dropdown" onchange="updatePreview()">
+            <option value="none"></option>
+            {% for i in res %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
 
-            <label for="selected-option">Selected Option:</label>
-            <input type="text" id="selected-option" oninput="updatePreview()">
-        </div>
+      <div id="text-area-container">
+        <label for="text-area">Write anything:</label>
+        <textarea id="text-area" rows="4" cols="50" oninput="updatePreview()"></textarea>
+
+        <label for="selected-option">Selected Option:</label>
+        <input type="text" id="selected-option" oninput="updatePreview()" />
+      </div>
     </div>
 
     <script>
-
-    function updatePreview() {
-        var dropdown = document.getElementById('dropdown');
-        var textArea = document.getElementById('text-area');
-        var previewDiv = document.getElementById('preview');
-        var selectedOptionInput = document.getElementById('selected-option');
-
-        var selectedOption = dropdown.options[dropdown.selectedIndex].text;
-        var textAreaContent = textArea.value;
-
+      function updatePreview() {
+        var dropdown = document.getElementById('dropdown')
+        var textArea = document.getElementById('text-area')
+        var previewDiv = document.getElementById('preview')
+        var selectedOptionInput = document.getElementById('selected-option')
+      
+        var selectedOption = dropdown.options[dropdown.selectedIndex].text
+        var textAreaContent = textArea.value
+      
         // Clear the selected option if there is content in the "Write anything" textarea
         if (textAreaContent.trim() !== '') {
-            selectedOption = '';
+          selectedOption = ''
         }
-
+      
         // Create a new line-separated string for better readability in the preview
-        var previewContent =  selectedOption +
-            "\n" + textAreaContent;
-
-        previewDiv.textContent = previewContent;
-        selectedOptionInput.value = selectedOption;
-    }
-
-    // Attach the updatePreview function to the input event of the text area and input field
-    document.getElementById('text-area').addEventListener('input', updatePreview);
-    document.getElementById('selected-option').addEventListener('input', updatePreview);
-
-    // Add an event listener to the dropdown to clear the "Write anything" textarea when an option is selected
-    document.getElementById('dropdown').addEventListener('change', function () {
-        document.getElementById('text-area').value = ''; // Clear the textarea
-        updatePreview(); // Update the preview
-    });
-</script>
-
-
-</body>
+        var previewContent = selectedOption + '\n' + textAreaContent
+      
+        previewDiv.textContent = previewContent
+        selectedOptionInput.value = selectedOption
+      }
+      
+      // Attach the updatePreview function to the input event of the text area and input field
+      document.getElementById('text-area').addEventListener('input', updatePreview)
+      document.getElementById('selected-option').addEventListener('input', updatePreview)
+      
+      // Add an event listener to the dropdown to clear the "Write anything" textarea when an option is selected
+      document.getElementById('dropdown').addEventListener('change', function () {
+        document.getElementById('text-area').value = '' // Clear the textarea
+        updatePreview() // Update the preview
+      })
+    </script>
+  </body>
 </html>
+{% endcomment %}
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Your existing head content... -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main</title>
+    <style>
+      body {
+        font-family: 'Times New Roman', serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      
+      .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%;
+      }
+      
+      #dropdown,
+      #preview,
+      #text-area,
+      #selected-option {
+        font-family: 'Times New Roman', serif;
+        margin-top: 10px;
+        width: 100%; /* Full width for the dropdown, text area, and selected option */
+      }
+      
+      #input-container {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      #preview-container {
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 30%;
+        height: fit-content;
+        text-align: center;
+      }
+      
+      #dropdown-container,
+      #text-area-container {
+        display: flex;
+        flex-direction: column;
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="preview-container">
+        <label>Preview:</label>
+        <div id="preview">Nothing</div>
+      </div>
+
+      <div id="dropdown-container">
+        <form action="" method="post">
+          {% csrf_token %}
+          <label for="makename">What's yo name</label>
+          <input type="text" id="makename" name="makename" />
+          <button type="submit">Submit</button>
+
+          <label for="dropdown">Select an option:</label>
+          <select id="dropdown" name="dropdown" onchange="updatePreview()">
+            <option value="none"></option>
+            {% for i in res %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+          </select>
+
+          {% if user.is_authenticated %}
+            <!-- Show "Buy Now" and "Add to Cart" options if the user is logged in -->
+            <button type="button" onclick="buyNow()">Buy Now</button>
+            <button type="button" onclick="addToCart()">Add to Cart</button>
+          {% else %}
+            <!-- Show a login link if the user is not logged in -->
+            <p>
+              <a href="{% url 'user_login' %}">Login</a> to buy this item.
+            </p>
+          {% endif %}
+        </form>
+      </div>
+
+      <div id="text-area-container">
+        <label for="text-area">Write anything:</label>
+        <textarea id="text-area" rows="4" cols="50" oninput="updatePreview()"></textarea>
+
+        <label for="selected-option">Selected Option:</label>
+        <input type="text" id="selected-option" oninput="updatePreview()" />
+      </div>
+    </div>
+
+    <script>
+      function updatePreview() {
+        var dropdown = document.getElementById('dropdown')
+        var textArea = document.getElementById('text-area')
+        var previewDiv = document.getElementById('preview')
+        var selectedOptionInput = document.getElementById('selected-option')
+      
+        var selectedOption = dropdown.options[dropdown.selectedIndex].text
+        var textAreaContent = textArea.value
+      
+        // Clear the selected option if there is content in the "Write anything" textarea
+        if (textAreaContent.trim() !== '') {
+          selectedOption = ''
+        }
+      
+        // Create a new line-separated string for better readability in the preview
+        var previewContent = selectedOption + '\n' + textAreaContent
+      
+        previewDiv.textContent = previewContent
+        selectedOptionInput.value = selectedOption
+      }
+      
+      // Attach the updatePreview function to the input event of the text area and input field
+      document.getElementById('text-area').addEventListener('input', updatePreview)
+      document.getElementById('selected-option').addEventListener('input', updatePreview)
+      
+      // Add an event listener to the dropdown to clear the "Write anything" textarea when an option is selected
+      document.getElementById('dropdown').addEventListener('change', function () {
+        document.getElementById('text-area').value = '' // Clear the textarea
+        updatePreview() // Update the preview
+      })
+    </script>
+  </body>
+</html>

@@ -44,6 +44,7 @@ EXTERNAL_APPS = [
     "contact",
     "user_login",
     "main",
+    "cart",
 ]
 
 INSTALLED_APPS += EXTERNAL_APPS
@@ -67,6 +68,7 @@ TEMPLATES = [
         "DIRS": [
             "/Users/harshavardhan/dev/Hasgu/my_project/contact/templates",
             "/Users/harshavardhan/dev/Hasgu/my_project/user_login/templates",
+            "/Users/harshavardhan/dev/Hasgu/my_project/cart/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
