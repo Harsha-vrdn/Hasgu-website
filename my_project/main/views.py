@@ -4,9 +4,9 @@ import requests
 from cart.models import CartItem
 
 
-@login_required(
-    login_url="login"
-)  # Redirect to the login page if the user is not logged in
+# @login_required(
+#     login_url="user_login"
+# )  # Redirect to the login page if the user is not logged in
 def main(request):
     if request.method == "POST":
         makename = request.POST["makename"]

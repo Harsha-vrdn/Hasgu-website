@@ -69,6 +69,7 @@ TEMPLATES = [
             "/Users/harshavardhan/dev/Hasgu/my_project/contact/templates",
             "/Users/harshavardhan/dev/Hasgu/my_project/user_login/templates",
             "/Users/harshavardhan/dev/Hasgu/my_project/cart/templates",
+            "/home/harsha_vrdn/Desktop/Hasgu/hasgu/Hasgu-website/my_project/my_app/templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
