@@ -14,7 +14,7 @@
         margin: 0;
         background-color: #f5f5f5; /* Light gray background */
       }
-
+      
       .container {
         display: flex;
         flex-wrap: wrap; /* Allow items to wrap to the next line */
@@ -23,7 +23,7 @@
         width: 80%;
         margin: auto; /* Center the container */
       }
-
+      
       #preview-container,
       #dropdown-container,
       #text-area-container {
@@ -36,12 +36,12 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
         margin-bottom: 15px;
       }
-
+      
       #preview-container {
         border: 1px solid #ccc;
         text-align: center;
       }
-
+      
       #dropdown,
       #text-area,
       #selected-option {
@@ -52,7 +52,7 @@
         border-radius: 4px;
         box-sizing: border-box;
       }
-
+      
       #dropdown-container button,
       #text-area-container button {
         padding: 10px;
@@ -64,12 +64,12 @@
         border-radius: 4px;
         transition: background-color 0.3s;
       }
-
+      
       #dropdown-container button:hover,
       #text-area-container button:hover {
         background-color: #45a049; /* Darker green on hover */
       }
-
+      
       @media only screen and (min-width: 768px) {
         /* Adjust layout for medium and larger screens */
         #preview-container,
@@ -82,7 +82,6 @@
   </head>
   <body>
     <div class="container">
-
       <div id="preview-container">
         <div id="preview">Nothing</div>
       </div>
@@ -93,6 +92,10 @@
           <label for="makename">What's your name</label>
           <input type="text" id="makename" name="makename" />
           <button type="submit">Submit</button>
+          <!-- Add a hidden input field to store the selected dropdown option -->
+          <input type="hidden" id="selected-option-hidden" name="selected_option" value="" />
+
+          <!-- Modify the dropdown onchange event to update the hidden input -->
           <select id="dropdown" name="dropdown" onchange="updatePreview()">
             <option value="none"></option>
             {% for i in res %}
@@ -102,7 +105,7 @@
 
           {% if user.is_authenticated %}
             <button type="button" onclick="buyNow()">Buy Now</button>
-            <button id="addToCartBtn" type="button">Add to Cart</button>
+            <button id="addToCartBtn" type="submit">Add to Cart</button>
           {% else %}
             <p>
               <a href="{% url 'user_login' %}">Login</a> to buy this item.
@@ -119,41 +122,40 @@
         <input type="text" id="selected-option" oninput="updatePreview()" />
       </div>
     </div>
-
     <script>
       function updatePreview() {
-        var dropdown = document.getElementById('dropdown');
-        var textArea = document.getElementById('text-area');
-        var previewDiv = document.getElementById('preview');
-        var selectedOptionInput = document.getElementById('selected-option');
-
-        var selectedOption = dropdown.options[dropdown.selectedIndex].text;
-        var textAreaContent = textArea.value.trim();
-
-        selectedOption = textAreaContent === '' ? selectedOption : '';
-
-        var previewContent = `${selectedOption}\n${textAreaContent}`;
-        previewDiv.textContent = previewContent;
-        selectedOptionInput.value = selectedOption;
+        var dropdown = document.getElementById('dropdown')
+        var textArea = document.getElementById('text-area')
+        var previewDiv = document.getElementById('preview')
+        var selectedOptionHidden = document.getElementById('selected-option-hidden')
+      
+        var selectedOption = dropdown.options[dropdown.selectedIndex].text
+        var textAreaContent = textArea.value.trim()
+      
+        selectedOption = textAreaContent === '' ? selectedOption : ''
+      
+        var previewContent = `${selectedOption}\n${textAreaContent}`
+        previewDiv.textContent = previewContent
+        selectedOptionHidden.value = selectedOption
       }
-
+      
       function addToCart() {
         // Add your logic to handle adding to the cart
         // For example, you can send an AJAX request to a server endpoint
         // or update a client-side cart object.
         // For demonstration purposes, let's alert a message.
-        alert('Item added to cart!');
+        alert('Item added to cart!')
       }
-
-      document.getElementById('text-area').addEventListener('input', updatePreview);
-      document.getElementById('selected-option').addEventListener('input', updatePreview);
-
+      
+      document.getElementById('text-area').addEventListener('input', updatePreview)
+      document.getElementById('selected-option-hidden').addEventListener('input', updatePreview)
+      
       document.getElementById('dropdown').addEventListener('change', function () {
-        document.getElementById('text-area').value = '';
-        updatePreview();
-      });
-
-      document.getElementById('addToCartBtn').addEventListener('click', addToCart);
+        document.getElementById('text-area').value = ''
+        updatePreview()
+      })
+      
+      document.getElementById('addToCartBtn').addEventListener('click', addToCart)
     </script>
   </body>
 </html>
