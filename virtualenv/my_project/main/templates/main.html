@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Main</title>
+</head>
+<body>
+  <div>
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+<div class="container-main">
+  <form action="" method="post" class="form-container">
+    {% csrf_token %}
+    <div>
+      {{ form.as_p }}
+    </div>
+    <button type = "submit" value="generate">Generate</button>
+      {% if input_text %}
+      <select id="dropdown" name="dropdown" onchange="updatePreview()">
+        <option value="none"></option>
+        {% for i in res %}
+          <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+
+      <h2>Result</h2>
+      <p><strong>Input Text</strong>: {{ input_text }}</p>
+      <p><strong>Selected Option</strong>: {{ selected_option }}: {{ request.POST.dropdown }}</p>
+      <button type="submit" name="action" value="AddToCart">Add to cart</button>
+      <button type = "submit" name="action" value="BuyNow">Buy Now</button>
+
+      {% endif %}
+  </form>
+</div>
+
+
+</body>
+</html>
+
+{% comment %} 
+<!-- <form action="" method="post">
+  {% csrf_token %}
+  <label for="makename">What's your name</label>
+  <input type="text" id="makename" name="makename" />
+  <button type="submit">Submit</button>
+  <!-- Add a hidden input field to store the selected dropdown option -->
+  <input type="hidden" id="selected-option-hidden" name="selected_option" value="" />
+
+  <!-- Modify the dropdown onchange event to update the hidden input -->
+  <select id="dropdown" name="dropdown" onchange="updatePreview()">
+    <option value="none"></option>
+    {% for i in res %}
+      <option value="{{ i }}">{{ i }}</option>
+    {% endfor %}
+  </select>
+
+  {% if user.is_authenticated %}
+    <button type="button" onclick="buyNow()">Buy Now</button>
+    <button id="addToCartBtn" type="submit">Add to Cart</button>
+  {% else %}
+    <p>
+      <a href="{% url 'user_login' %}">Login</a> to buy this item.
+    </p>
+  {% endif %}
+</form> --> {% endcomment %}
